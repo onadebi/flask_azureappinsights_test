@@ -2,13 +2,13 @@ from flask import Blueprint, render_template
 from apptelemetry import get_logger
 
 # Create the error blueprint
-print(f"Blueprint __name__ in errors.py: {__name__}")
 error_bp = Blueprint('error', __name__)
 logger = get_logger(__name__)
 
 @error_bp.route('/error')
 def test_error():
     """Test endpoint to demonstrate error logging"""
+    print(f"Blueprint __name__ in errors.py: {__name__}")
     title = "Error Test"
     response = {
         'event_name': 'test_error',
