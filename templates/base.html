@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
+            max-width: 90%;
             margin: 0 auto;
             padding: 20px;
             background-color: #f5f5f5;
@@ -64,6 +64,7 @@
         <div class="content">
             {% block content %}{% endblock %}
         </div>
+        {% block secondary_content %}{% endblock %}
     </div>
 </body>
 </html>
