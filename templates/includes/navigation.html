@@ -1,0 +1,7 @@
+<nav>
+    <ul class="nav-menu">
+        <li><a href="/" {% if request.endpoint == 'hello' %}class="active"{% endif %}>Home</a></li>
+        <li><a href="/health" {% if request.endpoint == 'health_check' %}class="active"{% endif %}>Health Check</a></li>
+        <li><a href="/error" {% if request.endpoint == 'test_error' %}class="active"{% endif %}>Test Error</a></li>
+    </ul>
+</nav>

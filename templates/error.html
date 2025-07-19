@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}{{ msg.title }}{% endblock %}
+
+{% block content %}
+    <h2>Error Test</h2>
+    <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; ">
+        <pre style="white-space: pre-wrap; overflow-x: auto; max-width: 100%;">{{ msg.message | tojson(indent=4) }}</pre>
+    </div>
+{% endblock %}
