@@ -29,15 +29,10 @@ def form():
     data = request.form
 
     if request.method == 'POST':
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboard.dashboard'))
     
     logger.info("Form submitted", extra={
         'event_name': 'form_submission',
         'form_data': data
     })
     return render_template('form.html', msg={'title': 'Form Submission', 'message': data}), 200
-
-@main_bp.route('/dashboard')
-def dashboard():
-    """Render the dashboard page"""
-    return render_template('dashboard.html', msg={'title': 'Dashboard'})
