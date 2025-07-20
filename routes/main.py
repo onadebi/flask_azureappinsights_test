@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for
 from apptelemetry import get_logger
-import time
+from models.forms import HealthDataForm
 
 # Create the main blueprint
 main_bp = Blueprint('main', __name__)
@@ -26,13 +26,22 @@ def hello():
 @main_bp.route('/form', methods=['POST', 'GET'])
 def form():
     """Handle form submission"""
-    data = request.form
-
-    if request.method == 'POST':
+    health_form = HealthDataForm()
+    if request.method == 'POST' and health_form.validate_on_submit():
+        # Process the form data
+        date = health_form.date.data
+        exercise = health_form.exercise.data
+        sleep = health_form.sleep.data
+        meditation = health_form.meditation.data
+        blood_pressure = health_form.blood_pressure.data
+        logger.info("Form submitted successfully", extra={
+            'event_name': 'form_submission',
+            'form_data': health_form.data
+        })
         return redirect(url_for('dashboard.dashboard'))
-    
-    logger.info("Form submitted", extra={
-        'event_name': 'form_submission',
-        'form_data': data
+
+    logger.warning("FailedFormSubmission", extra={
+        'event_name': 'Invalid form submission',
+        'form_data': health_form.errors if health_form else 'No form data'
     })
-    return render_template('form.html', msg={'title': 'Form Submission', 'message': data}), 200
+    return render_template('form.html', msg={'title': 'Add New Entry','form': health_form}), 200

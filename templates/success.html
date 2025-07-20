@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}{{ msg.title }}{% endblock %}
+
+{% block secondary_content %}
+    <h2>Success!</h2>
+    <div style="background-color: #f5f5f5; padding: 10px; border-radius: 5px; ">
+        <p>Hi {{ msg.username }}! We have received your email: {{ msg.email }}</p>
+    </div>
+{% endblock %}

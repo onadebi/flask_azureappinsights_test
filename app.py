@@ -1,5 +1,5 @@
 from flask import Flask
-from apptelemetry import get_logger
+from apptelemetry import get_logger; import os;
 
 # Import blueprints
 from routes.main import main_bp
@@ -14,6 +14,7 @@ from routes.dashboard_route import bp_dashboard
 from middleware.request_logging import register_middleware
 
 app = Flask(__name__)
+app.secret_key =os.getenv('WTF_CSRF_SECRET_KEY', 'default_secret_key')
 logger = get_logger(__name__)
 
 # Register middleware

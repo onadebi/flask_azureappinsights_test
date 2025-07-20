@@ -43,3 +43,46 @@ body {
 .content {
     margin-top: 20px;
 }
+
+
+/* #region Defaults */
+
+input[type="submit"],
+button {
+    outline: none;
+    color: white;
+    background-color: cornflowerblue;
+    text-transform: capitalize;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+}
+
+input[type="submit"]:hover,
+button:hover,button:focus {
+    color: black;
+}
+
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"] {
+    margin: 5px 10px;
+    padding: 10px;
+    outline: none;
+    margin: 10px 0;
+    border: 1px solid #f55f5f;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus {
+    border: 1px solid cornflowerblue;
+    transition: border-color 0.3s;
+}
+/* #endregion Defaults */

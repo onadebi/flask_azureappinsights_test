@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ msg.title }}</h1>
+  <form method="POST">
+    {{ msg.form.hidden_tag() }}
+    <div>
+      {{ msg.form.date.label }}<br>
+      {{ msg.form.date(size=32) }}<br>
+      {% for error in msg.form.date.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </div>
+    <div>
+        {{ msg.form.exercise.label(class="form-label") }}<br>
+        {{ msg.form.exercise(size=32) }}<br>
+        {% for error in msg.form.exercise.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ msg.form.sleep.label(class="form-label") }}<br>
+        {{ msg.form.sleep(size=32) }}<br>
+        {% for error in msg.form.sleep.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ msg.form.meditation.label }}<br>
+        {{ msg.form.meditation(size=32) }}<br>
+        {% for error in msg.form.meditation.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ msg.form.blood_pressure.label }}<br>
+        {{ msg.form.blood_pressure(size=20) }}<br>
+        {% for error in msg.form.blood_pressure.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div style="margin-top: 5px;">
+      {{ msg.form.submit() }}
+    </div>
+  </form>
+{% endblock %}
