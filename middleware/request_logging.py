@@ -92,8 +92,14 @@ def log_response_info(response: Response) -> Response:
     print(f"   Status Code: {status_code}")
     print(f"   Content-Type: {content_type}")
     print(f"   Processing Time: {processing_time}ms")
-    print(f"   Response Size: {len(response.get_data())} bytes")
     print("─" * 50)
+    
+    # Calculate response size safely
+    try:
+        response_size = len(response.get_data()) if hasattr(response, 'get_data') else 0
+    except (RuntimeError, AttributeError):
+        # Handle cases where response is in passthrough mode or doesn't support get_data
+        response_size = getattr(response, 'content_length', 0) or 0
     
     # Log to Azure Monitor
     logger.info("Response sent", extra={
@@ -101,7 +107,7 @@ def log_response_info(response: Response) -> Response:
         'status_code': status_code,
         'content_type': content_type,
         'processing_time_ms': processing_time,
-        'response_size_bytes': len(response.get_data())
+        'response_size_bytes': response_size
     })
     
     return response
