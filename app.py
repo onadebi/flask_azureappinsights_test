@@ -1,5 +1,8 @@
 from flask import Flask
 from apptelemetry import get_logger; import os;
+from dotenv import load_dotenv
+
+load_dotenv();
 
 # Import blueprints
 from routes.main import main_bp
@@ -21,6 +24,12 @@ logger = get_logger(__name__)
 register_middleware(app)
 # Load context processors
 load_contexts(app)
+
+
+#region Database connection
+from appconfigs.db_conn import get_db_connection
+db = get_db_connection(app);
+#enderegion
 
 # Register blueprints
 app.register_blueprint(main_bp)
