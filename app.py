@@ -41,9 +41,10 @@ app.register_blueprint(bp_dashboard, url_prefix='/dashboard')
 
 #region Run only if the script is executed directly
 if __name__ == '__main__':
+    is_dev = os.getenv("FLASK_ENV") == 'development';
     logger.info("Starting Flask application", extra={
         'event_name': 'app_startup',
-        'debug_mode': True
+        'debug_mode': is_dev
     })
-    app.run(debug=True)
+    app.run(debug= is_dev)
 #endregion

@@ -1,6 +1,8 @@
 from flask import Blueprint, request, render_template, redirect, url_for
 from apptelemetry import get_logger
-from models.forms import HealthDataForm
+from models.forms import HealthDataForm, MyForm
+from services.user_service import create_user
+from models.user import User;
 
 # Create the main blueprint
 main_bp = Blueprint('main', __name__)
@@ -26,22 +28,29 @@ def hello():
 @main_bp.route('/form', methods=['POST', 'GET'])
 def form():
     """Handle form submission"""
-    health_form = HealthDataForm()
-    if request.method == 'POST' and health_form.validate_on_submit():
+    user_registration = MyForm()
+    reg_msg= '';
+    if request.method == 'POST' and user_registration.validate_on_submit():
         # Process the form data
-        date = health_form.date.data
-        exercise = health_form.exercise.data
-        sleep = health_form.sleep.data
-        meditation = health_form.meditation.data
-        blood_pressure = health_form.blood_pressure.data
-        logger.info("Form submitted successfully", extra={
-            'event_name': 'form_submission',
-            'form_data': health_form.data
-        })
-        return redirect(url_for('dashboard.dashboard'))
-
+        username = user_registration.name.data
+        email = user_registration.email.data
+        new_user = create_user(username=username, email=email)
+        if new_user[0]:
+            return redirect(url_for('main.success',username=username, email=email, id=new_user[2].id))
+            # return redirect(url_for('dashboard.dashboard'))
+        else:
+            reg_msg = new_user[1]
+    
     logger.warning("FailedFormSubmission", extra={
         'event_name': 'Invalid form submission',
-        'form_data': health_form.errors if health_form else 'No form data'
+        'form_data': user_registration.errors if user_registration else 'No form data'
     })
-    return render_template('form.html', msg={'title': 'Add New Entry','form': health_form}), 200
+    return render_template('form.html', msg={'title': 'Add New Entry','form': user_registration, "info": reg_msg}), 200
+
+
+@main_bp.route('/success')
+def success():
+    username = request.args.get('username')
+    email = request.args.get('email')
+    id = request.args.get('id')
+    return render_template('success.html', msg={'title': 'Success!', 'username': username, 'email': email, 'id': id})

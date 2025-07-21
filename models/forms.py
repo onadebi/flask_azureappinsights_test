@@ -4,9 +4,10 @@ from wtforms.validators import DataRequired, Email, NumberRange,InputRequired
 
 
 class MyForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
+    name = StringField('Username', validators=[DataRequired()]
+                       , render_kw={"placeholder": "Username", 'id': "username"})
     email = EmailField('Email', validators=[DataRequired(), Email()]
-                       , render_kw={"placeholder": "Enter your email"}
+                       , render_kw={"placeholder": "Enter your email", 'id': "useremail"}
                        , description="Please enter a valid email address")
     submit = SubmitField('Submit')
 
