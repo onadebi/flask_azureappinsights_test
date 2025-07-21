@@ -6,7 +6,8 @@ def inject_navigation():
             {'name': 'home', 'url': '/'},
             {'name': 'health check', 'url': '/health'},
             {'name': 'test error', 'url': '/error'},
-            {'name': 'dashboard', 'url': '/dashboard/'}
+            {'name': 'dashboard', 'url': '/dashboard/'},
+            {'name': 'Users', 'url': '/dashboard/users'},
         ]
     }
 
