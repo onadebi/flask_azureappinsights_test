@@ -35,10 +35,10 @@ def form():
         # Process the form data
         username = user_registration.name.data
         email = user_registration.email.data
-        profile_picture = (None | FileStorage)
-        if request.files:
-            profile_picture  = request.files.get('profile_picture')
-        new_user = create_user(username=username, email=email, profile_picture=profile_picture)
+        # profile_picture = (None | FileStorage)
+        # if request.files:
+        #     profile_picture  = request.files.get('profile_picture')
+        new_user = create_user(username=username, email=email, profile_picture=request.files.get('profile_picture'))
         if new_user[0]:
             return redirect(url_for('main.success',username=username, email=email, id=new_user[2].id))
             # return redirect(url_for('dashboard.dashboard'))
