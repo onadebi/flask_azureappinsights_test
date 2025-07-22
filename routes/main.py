@@ -1,8 +1,10 @@
+import os
 from flask import Blueprint, request, render_template, redirect, url_for
 from apptelemetry import get_logger
-from models.forms import HealthDataForm, MyForm
+from models.forms import MyForm
 from services.user_service import create_user
-from models.user import User;
+from utils.helpers import Helpers
+from werkzeug.datastructures import FileStorage
 
 # Create the main blueprint
 main_bp = Blueprint('main', __name__)
@@ -19,7 +21,6 @@ def hello():
         'client_ip': request.remote_addr,
         'app_module': str(__name__)
     }
-
     # Make sure the extra parameters are serializable
     logger.info("Request completed successfully", extra=response)
     return render_template('index.html', msg={'title': title, 'message': response})
@@ -34,7 +35,10 @@ def form():
         # Process the form data
         username = user_registration.name.data
         email = user_registration.email.data
-        new_user = create_user(username=username, email=email)
+        profile_picture = (None | FileStorage)
+        if request.files:
+            profile_picture  = request.files.get('profile_picture')
+        new_user = create_user(username=username, email=email, profile_picture=profile_picture)
         if new_user[0]:
             return redirect(url_for('main.success',username=username, email=email, id=new_user[2].id))
             # return redirect(url_for('dashboard.dashboard'))
@@ -46,6 +50,7 @@ def form():
         'form_data': user_registration.errors if user_registration else 'No form data'
     })
     return render_template('form.html', msg={'title': 'Add New Entry','form': user_registration, "info": reg_msg}), 200
+
 
 
 @main_bp.route('/success')

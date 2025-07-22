@@ -10,7 +10,7 @@
   {% if msg.info %}
     <div class="alert alert-info">{{ msg.info }}</div>
   {% endif %}
-  <form method="POST">
+  <form method="POST" enctype="multipart/form-data">
     {{ msg.form.hidden_tag() }}
     <div>
       {{ msg.form.name.label(for="username") }}<br>
@@ -25,6 +25,13 @@
         {% for error in msg.form.email.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
+    </div>
+    <div>
+      <label for="profile_picture" class="form-label">Upload Profile Picture (optional)</label><br/>
+      {% if msg.profile_picture %}
+        <img src="{{ url_for('static', filename='uploads/' + msg.profile_picture) }}" alt="Profile Picture" style="max-width: 150px; max-height: 150px; border-radius: 5px;">
+      {% endif %}
+      <input type="file" name="profile_picture" id="profile_picture" style="border:1px solid #ececec; padding: 15px;" accept="image/*">
     </div>
     <div style="margin-top: 5px;">
       {{ msg.form.submit() }}

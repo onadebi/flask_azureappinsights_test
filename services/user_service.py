@@ -1,13 +1,24 @@
+import os
 from models.user import User
 from appconfigs.db_conn import db;
 from apptelemetry import get_logger
+from werkzeug.datastructures import FileStorage
+
+from utils.helpers import Helpers
 
 
 logger = get_logger(__name__)
 
-def create_user(username, email) -> tuple[bool, str, (User | None)]:
+def create_user(username: str, email: str, profile_picture: (FileStorage | None) = None) -> tuple[bool, str, (User | None)]:
     """Create a new user in the database"""
-    new_user = User(username=username, email=email)
+    if profile_picture:
+                profile_picture_url = Helpers.guid() + "_" + profile_picture.filename.strip().replace(' ', '_')
+                # create uploads folder if it doesn't exist
+                if not os.path.exists(os.path.join('static', 'uploads')):
+                    os.makedirs(os.path.join('static', 'uploads'))
+                # updated file to static/uploads folder
+                profile_picture.save(os.path.join('static', 'uploads', profile_picture_url))
+    new_user = User(username=username, email=email, profile_picture=profile_picture_url if profile_picture else None)
     try:
         db.session.add(new_user)
         db.session.commit()

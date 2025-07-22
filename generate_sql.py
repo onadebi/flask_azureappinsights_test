@@ -3,8 +3,8 @@
 Generate SQL scripts from SQLAlchemy models without executing them
 """
 
-from app import app, db
-from models.user import User
+from app import app, dbUser
+from models.user import 
 from sqlalchemy.schema import CreateTable
 from sqlalchemy.dialects import postgresql
 
